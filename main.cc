@@ -1,8 +1,13 @@
+// #define HB
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <freetype/freetype.h>
+#ifdef HB
 #include <hb.h>
 #include <hb-ft.h>
+#endif
 
 #define FONT_SIZE 36
 #define MARGIN (FONT_SIZE * .5)
@@ -34,6 +39,7 @@ main(int argc, char **argv)
   if ((ft_error = FT_Set_Char_Size (ft_face, FONT_SIZE*64, FONT_SIZE*64, 0, 0)))
     abort();
 
+  #ifdef HB
   /* Create hb-ft font. */
   hb_font_t *hb_font;
   hb_font = hb_ft_font_create (ft_face, NULL);
@@ -117,6 +123,7 @@ main(int argc, char **argv)
 
   hb_buffer_destroy (hb_buffer);
   hb_font_destroy (hb_font);
+  #endif
 
   FT_Done_Face (ft_face);
   FT_Done_FreeType (ft_library);
